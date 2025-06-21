@@ -1,0 +1,35 @@
+{
+  "version": "auto-py-to-exe-2.31.0",
+  "pyinstallerCommand": [
+    "pyinstaller",
+    "--noconfirm",
+    "--onefile",
+    "--windowed",
+    "--add-data",
+    ".streamlit;.streamlit",
+    "--add-data",
+    "outputs;outputs",
+    "--distpath",
+    "dist",
+    "--workpath",
+    "build",
+    "--specpath",
+    "setup",
+    "app.py"
+  ],
+  "pyinstallerFlags": [],
+  "advanced": {
+    "executable": "AutoML_CSV_Tool",
+    "icon": "",
+    "consoleWindow": false
+  },
+  "postProcessScript": null,
+  "output": {
+    "dir": "dist"
+  },
+  "settings": {
+    "cleanBuild": true,
+    "manualCommand": false
+  },
+  "ignorePatterns": []
+}
