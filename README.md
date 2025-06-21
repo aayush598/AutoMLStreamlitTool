@@ -140,8 +140,7 @@ You can now distribute this `.exe` to others for running locally without Python 
 
 **Aayush Gid**
 B.Tech Electronics & Communication | Embedded Systems & AI/ML
-Connect on [LinkedIn](https://www.linkedin.com/) *(Update link)*
-
+Connect on [LinkedIn](https://www.linkedin.com/in/aayush-gid-3767a2221/)
 ---
 
 ## 📄 License
