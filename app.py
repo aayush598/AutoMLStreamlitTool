@@ -2,9 +2,10 @@
 
 import streamlit as st
 import os
-from src import trainer, tester
+from src import trainer, tester, eda
 from src.constants import MODEL_DIR, PREDICTIONS_DIR, PLOTS_DIR, CLASSIFICATION_MODELS
 import tempfile
+import pandas as pd
 
 st.set_page_config(page_title="AutoML CSV Trainer", layout="wide")
 st.title("🤖 AutoML CSV Trainer & Tester")
@@ -27,6 +28,18 @@ if mode == "Train Model":
 
     if train_file is not None:
         st.success("✅ CSV File Uploaded Successfully")
+
+        df = pd.read_csv(train_file)
+        st.write("### Preview of Uploaded CSV")
+        st.dataframe(df.head())
+
+        # 🔁 Reset file stream before reuse
+        train_file.seek(0)
+
+
+        # Add EDA toggle
+        if st.checkbox("Run Exploratory Data Analysis"):
+            eda.run_eda(df)
 
         if st.button("🚀 Train Model Automatically"):
             with st.spinner("Training in progress..."):
