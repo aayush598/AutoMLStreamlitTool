@@ -1,144 +1,149 @@
-# 🧠 AutoML CSV Trainer & Tester (Streamlit Tool)
 
-An easy-to-use Streamlit-based AutoML tool that allows anyone to **train** and **test** machine learning models on CSV datasets — no coding required!
+# 🤖 AutoML CSV Trainer & Tester
 
-## 🚀 Features
-
-- 📂 Upload CSV data for training or testing
-- ⚙️ Automatic preprocessing (missing values, encoding, scaling)
-- 🤖 Automatic ML model training using multiple algorithms
-- 📊 Model evaluation with accuracy, precision, recall, F1-score
-- 🧾 Confusion matrix & classification report visualizations
-- 💾 Model saving and loading using `joblib`
-- 🖼️ Streamlit-based interactive web interface
-- 🧱 `.exe` builder for offline desktop usage (via PyInstaller)
+A no-code **Streamlit-based Machine Learning tool** that allows anyone — even with minimal technical knowledge — to upload a CSV file, train/test a machine learning model, and visualize results interactively. It supports automated data preprocessing, model training, testing, evaluation, and visual reporting.
 
 ---
 
-## 📁 Project Structure
+## 📂 Features
 
-```bash
-.
-├── app.py                     # Main Streamlit app
+✅ Train models automatically on CSV data  
+✅ Select models and see evaluation metrics  
+✅ Test trained models with test CSVs  
+✅ Auto-generated accuracy, confusion matrix, and graphs  
+✅ No coding required — user-friendly web interface  
+✅ Exportable trained `.pkl` model  
+✅ Works as Web App and Standalone `.exe`  
+✅ Docker support for deployment
+
+---
+
+## 📦 Folder Structure
+
+```
+
+automl-csv-app/
+├── app.py
 ├── requirements.txt
+├── Dockerfile
 ├── .streamlit/
-│   └── config.toml            # UI config
-├── outputs/                   # Saved models and plots
+│   └── config.toml
 ├── src/
-│   ├── constants.py           # Global constants
-│   ├── tester.py              # Model testing logic
-│   ├── trainer.py             # Model training logic
-│   ├── utils.py               # Preprocessing helpers
-│   └── visualizer.py          # Plotting functions
-├── setup/
-│   └── build_spec.py          # PyInstaller packaging script
-└── auto_py_to_exe.json        # Optional GUI-based .exe config
+│   ├── constants.py
+│   ├── trainer.py
+│   ├── tester.py
+│   ├── utils.py
+│   └── visualizer.py
+
 ````
 
 ---
 
-## 💻 Getting Started
-
-### 1. Clone the Repo
+## 🚀 Run Locally (Ubuntu / Mac / Windows)
 
 ```bash
-git clone https://github.com/your-username/automl-csv-trainer.git
-cd automl-csv-trainer
-```
+# Clone the repository
+git clone https://github.com/your-username/automl-csv-app.git
+cd automl-csv-app
 
-### 2. Install Requirements
+# Create and activate virtual environment (recommended)
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
 
-```bash
+# Install dependencies
 pip install -r requirements.txt
-```
 
-### 3. Run the App
-
-```bash
+# Start the app
 streamlit run app.py
+````
+
+Then go to: [http://localhost:8501](http://localhost:8501)
+
+---
+
+## 🧪 Example CSV Format
+
+Make sure your input CSV has the target column (label) as the **last column**.
+
+```
+feature1, feature2, ..., label
+value1,   value2,   ..., classA
 ```
 
-Then visit: [http://localhost:8501](http://localhost:8501)
-
 ---
 
-## 🧪 Usage
-
-1. Choose between **Train Model** or **Test Model**
-2. Upload your `.csv` file
-3. For training:
-
-   * Select target column
-   * Tool trains multiple classifiers and evaluates them
-   * Best model is saved to `/outputs/`
-4. For testing:
-
-   * Upload a previously trained `.joblib` model
-   * Upload new test CSV
-   * Get evaluation report and visualizations
-
----
-
-## 📦 Convert to .EXE (Optional)
-
-To generate a standalone `.exe` for local usage:
-
-### Option 1: Using Python Script
+## 🐳 Run with Docker (Ubuntu/Linux)
 
 ```bash
-python setup/build_spec.py
+# Build Docker image
+docker build -t automl-csv-app .
+
+# Run Docker container
+docker run -d -p 8501:8501 --name automl_tool automl-csv-app
+
+# Access app at:
+http://localhost:8501
 ```
 
-### Option 2: Using auto-py-to-exe GUI
+---
+
+## 💻 Convert to `.exe` (Windows)
+
+### 1. Install PyInstaller
 
 ```bash
-auto-py-to-exe
+pip install pyinstaller
 ```
 
-Then load `auto_py_to_exe.json` and convert.
-
----
-
-## 📊 Sample Output
-
-* 📈 Confusion matrix (heatmap)
-* 📃 Classification report
-* ✅ Accuracy, Precision, Recall, F1
-* 📦 `.joblib` model file
-
----
-
-## 📌 Dependencies
-
-```text
-streamlit
-pandas
-numpy
-scikit-learn
-matplotlib
-seaborn
-joblib
-```
-
-Install them all with:
+### 2. Create `.exe` using PyInstaller
 
 ```bash
-pip install -r requirements.txt
+pyinstaller app.py --onefile --noconsole --hidden-import=sklearn
 ```
 
+### 3. (Optional) Edit `app.spec` to bundle `.streamlit/config.toml`:
+
+```python
+# In Analysis block:
+datas=[('.streamlit/config.toml', '.streamlit')],
+```
+
+### 4. Rebuild `.exe`
+
+```bash
+pyinstaller app.spec
+```
+
+### ✅ Result
+
+Your executable will be created in:
+
+```
+dist/
+└── AutoMLTrainer.exe
+```
+
+You can now distribute this `.exe` to others for running locally without Python installed!
+
+
+
+## 🧠 Future Enhancements
+
+* Model comparison dashboard
+* Feature selection and engineering options
+* Deep learning support (Keras/PyTorch)
+* Advanced hyperparameter tuning
+
 ---
 
-## 📜 License
-
-This project is licensed under the MIT License.
-
----
-
-## 🙋‍♂️ Author
+## 👨‍💻 Developed By
 
 **Aayush Gid**
-B.Tech, Electronics & Communication
-Streamlit / AI Automation / Embedded Enthusiast
+B.Tech Electronics & Communication | Embedded Systems & AI/ML
+Connect on [LinkedIn](https://www.linkedin.com/) *(Update link)*
 
 ---
 
+## 📄 License
+
+This project is licensed under the MIT License. Feel free to use and modify it for personal or commercial purposes.
