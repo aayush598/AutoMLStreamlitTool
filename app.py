@@ -4,6 +4,7 @@ import streamlit as st
 import os
 from src import trainer, tester
 from src.constants import MODEL_DIR, PREDICTIONS_DIR, PLOTS_DIR, CLASSIFICATION_MODELS
+import tempfile
 
 st.set_page_config(page_title="AutoML CSV Trainer", layout="wide")
 st.title("🤖 AutoML CSV Trainer & Tester")
@@ -71,11 +72,17 @@ elif mode == "Test Model":
     if test_file and model_file:
         if st.button("🔍 Run Prediction & Evaluate"):
             with st.spinner("Testing model on new data..."):
+                # Save UploadedFile (model_file) to a temporary file
+                with tempfile.NamedTemporaryFile(delete=False, suffix=".pkl") as tmp_model_file:
+                    tmp_model_file.write(model_file.read())
+                    model_path = tmp_model_file.name
+
                 result = tester.test_model_on_csv(
-                    test_file,
-                    model_path=model_file,
+                    csv_file=test_file,
+                    model_path=model_path,
                     target_column=target_col.strip() if target_col else None
                 )
+                os.unlink(model_path)
 
             st.success("✅ Testing Completed")
 

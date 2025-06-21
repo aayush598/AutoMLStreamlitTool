@@ -63,6 +63,8 @@ def test_model_on_csv(csv_file, model_path, target_column=None):
     metrics = None
     confusion_plot_path = None
     if has_target:
+        y_true = y_true.astype(str)
+        predictions = predictions.astype(str)
         metrics = utils.get_classification_metrics(y_true, predictions)
 
         plots_dir = "outputs/plots"
