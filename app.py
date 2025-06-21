@@ -7,7 +7,7 @@ import pandas as pd
 
 st.set_page_config(page_title="AutoML CSV Trainer", layout="wide")
 st.title("🤖 AutoML CSV Trainer & Tester")
-st.markdown("Upload a CSV file, train models automatically, and get predictions instantly!")
+st.markdown("Upload a CSV file, select target column and models, train automatically, and get predictions!")
 
 # Ensure output directories exist
 for directory in [MODEL_DIR, PREDICTIONS_DIR, PLOTS_DIR]:
@@ -37,13 +37,26 @@ if mode == "Train Model":
         # Select target column
         target_column = st.selectbox("🎯 Select Target Column", df.columns)
 
+        # Select models
+        st.markdown("### 🛠 Select Models to Train")
+        # Select model
+        selected_models = st.selectbox("🧠 Select Model for Training", list(CLASSIFICATION_MODELS.keys()))
+
+
+        if not selected_models:
+            st.warning("⚠️ Please select at least one model to train.")
+
         # Add EDA toggle
         if st.checkbox("Run Exploratory Data Analysis"):
             eda.run_eda(df)
 
-        if st.button("🚀 Train Model Automatically"):
+        if st.button("🚀 Train Model Automatically") and selected_models:
             with st.spinner("Training in progress..."):
-                output = trainer.train_model_from_csv(train_file, target_column)
+                output = trainer.train_model_from_csv(
+                    csv_file=train_file,
+                    target_column=target_column,
+                    model_name=selected_models
+                )
 
             st.success("🎉 Model trained successfully!")
 
@@ -85,7 +98,6 @@ elif mode == "Test Model":
     if test_file and model_file:
         if st.button("🔍 Run Prediction & Evaluate"):
             with st.spinner("Testing model on new data..."):
-                # Save UploadedFile (model_file) to a temporary file
                 with tempfile.NamedTemporaryFile(delete=False, suffix=".pkl") as tmp_model_file:
                     tmp_model_file.write(model_file.read())
                     model_path = tmp_model_file.name
