@@ -1,5 +1,3 @@
-# app.py
-
 import streamlit as st
 import os
 from src import trainer, tester, eda
@@ -36,6 +34,8 @@ if mode == "Train Model":
         # 🔁 Reset file stream before reuse
         train_file.seek(0)
 
+        # Select target column
+        target_column = st.selectbox("🎯 Select Target Column", df.columns)
 
         # Add EDA toggle
         if st.checkbox("Run Exploratory Data Analysis"):
@@ -43,7 +43,7 @@ if mode == "Train Model":
 
         if st.button("🚀 Train Model Automatically"):
             with st.spinner("Training in progress..."):
-                output = trainer.train_model_from_csv(train_file)
+                output = trainer.train_model_from_csv(train_file, target_column)
 
             st.success("🎉 Model trained successfully!")
 
